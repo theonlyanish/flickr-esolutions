@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/theonlyanish/flickr-esolutions/issues"
   },
-  "homepage": "https://github.com/theonlyanish/flickr-esolutions#readme"
+  "homepage": "https://github.com/theonlyanish/flickr-esolutions#readme",
+  "dependencies": {
+    "react-router-dom": "^6.14.0"
+  }
 }
