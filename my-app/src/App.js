@@ -1,21 +1,24 @@
 
 import './App.css';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Search from './page/Search';
+//import Search from './page/Search';
 import Login from './page/Login';
-import Register from './page/Register';
+//import Register from './page/Register';
 
 
 
 
 function App() {
+  const [query, setQuery] = useState('');
+  const [images, setImages] = useState([]);
   return (
     <div className="App">
     <BrowserRouter>
         <Routes>
-            <Route path="/search" element={<Search />} />
+            
             <Route path="*" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+  
         </Routes>
       </BrowserRouter>
     </div>
