@@ -1,8 +1,6 @@
+export const apiKey = '74b7b5c466ae19657e02c498831ee397';
 
-const config = {
-    url: 
-}
-
+/*
 export const getApi = (url, query) => {
     return fetch(`${config.url}${url}?${query}`);
 } 
@@ -27,4 +25,4 @@ export const putApi = (url, data) => {
     });
 } 
 
-export default config;
+*/

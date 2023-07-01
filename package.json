@@ -4,6 +4,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.6",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "flickr-sdk": "^6.2.1",
     "react-hook-form": "^7.45.1",
     "react-router-dom": "^6.14.0"
