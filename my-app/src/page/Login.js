@@ -9,7 +9,6 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Container } from "@mui/material";
 import { Redirect } from 'react-router-dom';
-import './Login.css';
 
 
 const Login = ({ onLogin }) => {
@@ -62,7 +61,7 @@ const Login = ({ onLogin }) => {
                   }}
                 >
                   <Typography component="h1" variant="h5">
-                    Sign in
+                    Sign in via key
                   </Typography>
                   <Box
                     component="form"
@@ -102,13 +101,7 @@ const Login = ({ onLogin }) => {
                     >
                       Sign In
                     </Button>
-                    <Grid container>
-                      <Grid item>
-                        <Link href="#" variant="body2">
-                          {"Don't have an account? Sign Up"}
-                        </Link>
-                      </Grid>
-                    </Grid>
+
                   </Box>
                 </Box>
               </Grid>

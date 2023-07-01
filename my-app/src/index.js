@@ -76,11 +76,6 @@ app.get('/api/photos', (req, res) => {
     });
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
-
-
 
 
 /*import React from 'react';
