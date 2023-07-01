@@ -1,3 +1,5 @@
+
+/*
 import React, { useState } from 'react';
 import { Grid, Button, Typography , FormGroup, Input, FormHelperText } from '@mui/material';
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,19 +14,8 @@ import { Redirect } from 'react-router-dom';
 
 
 const Login = ({ onLogin }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
- 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        
-        if (email !== '' && password !== '') {
-          setIsLoggedIn(true);
-          onLogin(email.trim(), password.trim());
-        }
-      };
+
     
       if (isLoggedIn) {
         return <Redirect to="/search" />;
@@ -112,3 +103,5 @@ const Login = ({ onLogin }) => {
     };
     
     export default Login;
+
+    */

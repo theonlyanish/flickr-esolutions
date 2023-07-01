@@ -1,6 +1,11 @@
 import { Grid, Button, Typography , FormGroup, Input, FormHelperText } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
+import ReactDOM from 'react-dom';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+
+
 
 const Search = ({ apiKey }) => {
   const [query, setQuery] = useState('');
@@ -11,7 +16,7 @@ const Search = ({ apiKey }) => {
       try {
         
         const response = await fetch(
-          `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=74b7b5c466ae19657e02c498831ee397&format=json&nojsoncallback=1&text=${query}`
+          `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&format=json&nojsoncallback=1&text=${query}`
         );
         const data = await response.json();
         const fetchedImages = data.photos.photo.map((photo) => ({
@@ -28,17 +33,17 @@ const Search = ({ apiKey }) => {
     if (query) {
       fetchImages();
     }
-  }, [query]);
+  }, [apiKey,query]);
 
   const handleSearch = (event) => {
     event.preventDefault();
-    setImages([]); // Clear previous search results
+    setImages([]);
     if (query) {
-      
       setQuery(query.trim());
     }
   };
 
+ 
   return (
     <div>
       <Typography variant="h2">Search</Typography>
@@ -51,16 +56,20 @@ const Search = ({ apiKey }) => {
         />
         <Button type="submit">Search</Button>
       </form>
-      <Grid container spacing={2}>
-        {images.map((image) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={image.id}>
-            <div>
-              <img src={image.url} alt={image.title} />
-              <Typography variant="subtitle1">{image.title}</Typography>
-            </div>
-          </Grid>
-        ))}
-      </Grid>
+      <div style={{ padding: '8%' }}>
+        <ImageList variant="masonry" cols={3} gap={8}>
+          {images.map((image) => (
+            <ImageListItem key={image.id}>
+              <img
+                src={`${image.url}?w=248&fit=crop&auto=format`}
+                srcSet={`${image.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt={image.title}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+/*
 const express = require('express');
 const session = require('express-session');
 const Flickr = require('flickr-sdk');
@@ -76,9 +77,10 @@ app.get('/api/photos', (req, res) => {
     });
 });
 
+*/
 
 
-/*import React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -95,4 +97,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-*/
