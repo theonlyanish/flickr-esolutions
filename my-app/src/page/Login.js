@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import { Grid, Button, Typography , FormGroup, Input, FormHelperText } from '@mui/material';
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -8,119 +8,114 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Container } from "@mui/material";
+import { Redirect } from 'react-router-dom';
 import './Login.css';
 
-export default function Login() {
+
+const Login = ({ onLogin }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+ 
     const handleSubmit = (event) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      console.log({
-        email: data.get("email"),
-        password: data.get("password"),
-      });
-    };
-  
-    return (
-      <Container component="main" maxWidth="lg">
-        <Box
-          sx={{
-            marginTop: 8,
-          }}
-        >
-          <Grid container>
-            <CssBaseline />
-            <Grid
-              item
-              xs={false}
-              sm={4}
-              md={7}
-              sx={{
-                backgroundImage: "url(https://source.unsplash.com/random)",
-                backgroundRepeat: "no-repeat",
-                backgroundColor: (t) =>
-                  t.palette.mode === "light"
-                    ? t.palette.grey[50]
-                    : t.palette.grey[900],
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <Grid
-              item
-              xs={12}
-              sm={8}
-              md={5}
-              component={Paper}
-              elevation={6}
-              square
-            >
-              <Box
+        event.preventDefault();
+        
+        if (email !== '' && password !== '') {
+          setIsLoggedIn(true);
+          onLogin(email.trim(), password.trim());
+        }
+      };
+    
+      if (isLoggedIn) {
+        return <Redirect to="/search" />;
+      }
+    
+      return (
+        <Container component="main" maxWidth="lg">
+          <Box sx={{ marginTop: 8 }}>
+            <Grid container>
+              <Grid
+                item
+                xs={false}
+                sm={4}
+                md={7}
                 sx={{
-                  my: 8,
-                  mx: 4,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
+                  backgroundImage: 'url(https://source.unsplash.com/random)',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundColor: (t) =>
+                    t.palette.mode === 'light'
+                      ? t.palette.grey[50]
+                      : t.palette.grey[900],
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
                 }}
-              >
-                <Typography component="h1" variant="h5">
-                  Sign in
-                </Typography>
+              />
+              <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <Box
-                  component="form"
-                  noValidate
-                  onSubmit={handleSubmit}
-                  sx={{ mt: 1 }}
+                  sx={{
+                    my: 8,
+                    mx: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}
                 >
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    autoFocus
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
-                  />
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                  <Typography component="h1" variant="h5">
+                    Sign in
+                  </Typography>
+                  <Box
+                    component="form"
+                    noValidate
+                    onSubmit={handleSubmit}
+                    sx={{ mt: 1 }}
                   >
-                    Sign In
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                      <Link href="#" variant="body2">
-                        Forgot password?
-                      </Link>
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      autoFocus
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                    />
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                    />
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                    >
+                      Sign In
+                    </Button>
+                    <Grid container>
+                      <Grid item>
+                        <Link href="#" variant="body2">
+                          {"Don't have an account? Sign Up"}
+                        </Link>
+                      </Grid>
                     </Grid>
-                    <Grid item>
-                      <Link href="#" variant="body2">
-                        {"Don't have an account? Sign Up"}
-                      </Link>
-                    </Grid>
-                  </Grid>
+                  </Box>
                 </Box>
-              </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
-      </Container>
-    );
-  }
+          </Box>
+        </Container>
+      );
+    };
+    
+    export default Login;
