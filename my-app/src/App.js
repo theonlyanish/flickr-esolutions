@@ -47,6 +47,7 @@ import Search from './page/Search';
 import { apiKey } from './config/config';
 import './App.css';
 
+//Setting header for all
 const App = () => {
   
   return (

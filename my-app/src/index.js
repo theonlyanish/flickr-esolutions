@@ -10,7 +10,7 @@ const port = 3000;
 app.use(
   session({
     secret: 'your_secret_key',
-    resave: false,
+    resave: false,  
     saveUninitialized: true
   })
 );

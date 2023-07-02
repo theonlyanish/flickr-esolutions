@@ -5,13 +5,17 @@ import ImageListItem from '@mui/material/ImageListItem';
 import './Search.css';
 
 
-
+// function to set query and output using api key
 const Search = ({ apiKey }) => {
+
+  //query and results
   const [query, setQuery] = useState('');
   const [images, setImages] = useState([]);
+
+  // to search using button
   const [searchClicked, setSearchClicked] = useState(false);
 
-  
+  //event to handle search
   const handleSearch = (event) => {
     event.preventDefault();
     setImages([]);
@@ -21,6 +25,7 @@ const Search = ({ apiKey }) => {
     }
   };
 
+  //API call to flickr based on click or query updation
   useEffect(() => {
     if (searchClicked) {
       const fetchImages = async () => {
@@ -43,6 +48,11 @@ const Search = ({ apiKey }) => {
       fetchImages();
     }
   }, [apiKey, query, searchClicked]);
+
+
+  //returning the images in a nice format
+  //format style - Masonry style from material UI for react 
+  // https://mui.com/material-ui/react-image-list/
 
   return (
     <div>
