@@ -1,22 +1,25 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-class OAuthComponent extends React.Component {
-  componentDidMount() {
+const OAuthComponent = () => {
+    const navigate = useNavigate();
 
+  const initiateOAuth = () => {
     fetch('http://localhost:3000/auth')
       .then(response => response.json())
       .then(data => {
-        
-        window.location.href = data.authorizationUrl;
+        navigate('/callback');
       })
       .catch(error => {
         console.error('Error initiating OAuth:', error);
       });
+  };
+    return (
+      <div>
+        <h2>OAuth Component</h2>
+        <button onClick={initiateOAuth}>Initiate OAuth</button>
+      </div>
+    );
   }
-
-  render() {
-    return <div>Redirecting for OAuth...</div>;
-  }
-}
 
 export default OAuthComponent;

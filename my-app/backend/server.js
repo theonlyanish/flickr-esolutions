@@ -1,11 +1,9 @@
 const express = require('express');
 const request = require('request');
 const session = require('express-session');
-const { apiKey } = require('./config/config');
-const { apiSecret} = require('./config/config')
 const app = express();
-const apiKeyy = apiKey
-const apiSecrett = apiSecret
+const apiKeyy = '74b7b5c466ae19657e02c498831ee397';
+const apiSecrett = 'e7030b76b84780de';
 
 
 // Session middleware
@@ -17,7 +15,7 @@ app.use(session({
   
   // API key refering to config.js
   
-  const callbackURL = 'http://localhost:3001/callback';
+  const callbackURL = 'http://localhost:3000/callback';
   
   // Root URL
   app.get('/', (req, res) => {
@@ -81,7 +79,7 @@ app.use(session({
 });
 });  
 
-app.listen(3001, () => {
-    console.log('Server started on http://localhost:3001');
+app.listen(3000, () => {
+    console.log('Server started on http://localhost:3000');
   });
   

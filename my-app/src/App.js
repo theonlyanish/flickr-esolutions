@@ -44,6 +44,7 @@ export default App;
 import React, { useState } from 'react';
 import OAuthComponent from './page/OAuthComponent';
 import CallbackComponent from './page/CallbackComponent';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Search from './page/Search';
 import { apiKey } from './config/config';
 import './App.css';
@@ -52,17 +53,22 @@ import './App.css';
 class App extends React.Component {
   render() {
   return (
-
+    <Router>
       <div class="two minimal">
     <h1>Flickr Image Search
       <span>Search through Flickr</span>
     </h1>
+{
 
-    {/* <OAuthComponent />
-        <CallbackComponent /> */}
-        <Search apiKey={apiKey} />
+/* 
+  
+    <Route path="/" element={<OAuthComponent />} />
+    <Route path="/callback" element={<CallbackComponent />} /> */}
+      
+        {/* <Search apiKey={apiKey} /> */}
    
   </div>
+  </Router>
   );
 };
 }
