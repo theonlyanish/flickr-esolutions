@@ -12,6 +12,8 @@
         "express": "^4.17.1",
         "express-session": "^1.17.2",
         "i": "^0.3.7",
-        "request": "^2.88.2"
+        "react-router-dom": "^6.14.1",
+        "request": "^2.88.2",
+        "url": "^0.11.1"
     }
 }
