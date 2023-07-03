@@ -5,6 +5,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import './Search.css';
 import { Transform } from 'stream';
 import { alignProperty } from '@mui/material/styles/cssUtils';
+import { colors } from '@mui/material';
 
 
 // function to set query and output using api key
@@ -87,27 +88,34 @@ const Search = ({ apiKey }) => {
       </div>
       {searchClicked && (
         <div class="results" style={{ padding: '10%' }}>
-          <ImageList variant="masonry" cols={3} gap={8}>
-            {images.map((image) => (
-              <ImageListItem key={image.id}>
-                <img
-                  src={`${image.url}?w=248&fit=crop&auto=format`}
-                  srcSet={`${image.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={image.title}
-                  loading="lazy"
-                />
-              </ImageListItem>
-            ))}
-          </ImageList>
-          {images.length % imagesPerPage === 0 && (
-            <div style={{ marginTop: '30px', textAlign: 'center', paddingTop: '10%', paddingRight: '25%' }}>
-              <button class="load-button" onClick={handleLoadMore}> Load More</button>
-            </div>
+          {images.length === 0 ? (
+            <p style={{color: 'white', textAlign: 'center'}}>No matches found!</p>
+          ) : (
+            <>
+              <ImageList variant="masonry" cols={3} gap={8}>
+                {images.map((image) => (
+                  <ImageListItem key={image.id}>
+                    <img
+                      src={`${image.url}?w=248&fit=crop&auto=format`}
+                      srcSet={`${image.url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      alt={image.title}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+              {images.length % imagesPerPage === 0 && (
+                <div style={{ marginTop: '16px', textAlign: 'center' }}>
+                  <button onClick={handleLoadMore}>Load More</button>
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
     </div>
   );
 };
+
 
 export default Search;
