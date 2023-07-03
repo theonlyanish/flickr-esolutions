@@ -1,0 +1,17 @@
+{
+    "name": "my-flickr-oauth-app-backend",
+    "version": "1.0.0",
+    "description": "Backend server for Flickr OAuth process",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "author": "Anish Kapse",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.17.1",
+        "express-session": "^1.17.2",
+        "i": "^0.3.7",
+        "request": "^2.88.2"
+    }
+}

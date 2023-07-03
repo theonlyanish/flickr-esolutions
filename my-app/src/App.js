@@ -42,24 +42,28 @@ export default App;
 */
 
 import React, { useState } from 'react';
-import Login from './page/Login';
+import OAuthComponent from './page/OAuthComponent';
+import CallbackComponent from './page/CallbackComponent';
 import Search from './page/Search';
 import { apiKey } from './config/config';
 import './App.css';
 
 //Setting header for all
-const App = () => {
-  
+class App extends React.Component {
+  render() {
   return (
+
       <div class="two minimal">
     <h1>Flickr Image Search
       <span>Search through Flickr</span>
     </h1>
-    
+
+    {/* <OAuthComponent />
+        <CallbackComponent /> */}
         <Search apiKey={apiKey} />
    
   </div>
   );
 };
-
+}
 export default App;
