@@ -3,14 +3,17 @@ const express = require('express');
 const request = require('request');
 const session = require('express-session');
 const app = express();
+const port = 3000;
 const apiKeyy = '74b7b5c466ae19657e02c498831ee397';
 const apiSecrett = 'e7030b76b84780de';
 const crypto = require('crypto');
+const path = require('path');
+const queryString = require('querystring');
 
 
 // Session middleware
 app.use(session({
-    secret: 'your-secret-key',
+    secret: 'e7030b76b84780de',
     resave: true,
     saveUninitialized: true
   }));
@@ -19,9 +22,9 @@ app.use(session({
   
   const callbackURL = 'http://localhost:3000/callback';
   
-  // Root URL
-  app.get('/home', (req, res) => {
-    res.send('Flickr Oauth Process');
+
+  app.get('/', (req, res) => {
+    res.send('Welcome to the OAuth process');
   });
   
 
@@ -171,17 +174,101 @@ app.use(session({
           const queryParams = new URLSearchParams(body);
           const oauthAccessToken = queryParams.get('oauth_token');
           const oauthAccessTokenSecret = queryParams.get('oauth_token_secret');
+          const userNSID = queryParams.get('user_nsid');
+          const username = queryParams.get('username');
+          const fullname = queryParams.get('fullname');
   
           req.session.oauthAccessToken = oauthAccessToken;
           req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
-  
-          res.send('OAuth callback completed successfully!');
+
+          const redirectURL = `http://localhost:3000/access-token`;
+          res.redirect(redirectURL);
+          
         }
       }
     );
   });
 
-app.listen(3000, () => {
-    console.log('Server started on http://localhost:3000');
+  app.get('/access-token', (req, res) => {
+    const oauthAccessToken = req.session.oauthAccessToken;
+    const oauthAccessTokenSecret = req.session.oauthAccessTokenSecret;
+  
+    const verifyAccessToken = (accessToken, accessTokenSecret, callback) => {
+      const oauthVerifyURL = 'https://www.flickr.com/services/rest';
+      const oauthNonce = Math.floor(Math.random() * 1e9).toString();
+      const oauthTimestamp = Math.floor(Date.now() / 1000).toString();
+      const oauthConsumerKey = '74b7b5c466ae19657e02c498831ee397';
+      const oauthSignatureMethod = 'HMAC-SHA1';
+      const oauthVersion = '1.0';
+  
+      const oauthParams = {
+        nojsoncallback: 1,
+        oauth_nonce: oauthNonce,
+        format: 'json',
+        oauth_consumer_key: oauthConsumerKey,
+        oauth_timestamp: oauthTimestamp,
+        oauth_signature_method: oauthSignatureMethod,
+        oauth_version: oauthVersion,
+        oauth_token: accessToken,
+        method: 'flickr.test.login'
+      };
+  
+      const oauthSignature = createOAuthSignature(
+        'GET',
+        oauthVerifyURL,
+        oauthParams,
+        apiSecrett,
+        accessTokenSecret
+      );
+  
+      const verifyURL = `${oauthVerifyURL}?${queryString.stringify({
+        ...oauthParams,
+        oauth_signature: oauthSignature
+      })}`;
+  
+      request.get({ url: verifyURL }, (error, response, body) => {
+        if (error) {
+          console.error('Error verifying access token:', error);
+          callback(error);
+        } else {
+          const redirectURL = `http://localhost:3000/home`;
+          res.redirect(redirectURL);
+        }
+      });
+    };
+  
+    verifyAccessToken(oauthAccessToken, oauthAccessTokenSecret, (err, data) => {
+      if (err) {
+        console.error('Error verifying access token:', err);
+        res.status(500).send('Error verifying access token');
+      } else {
+        res.json(data);
+      }
+    });
+  });
+
+
+
+  // Root URL
+  app.get('/home', (req, res) => {
+    setTimeout(() => {
+      res.send('Flickr OAuth Process Complete');
+    }, 3000);
+  });
+
+  app.use((req, res, next) => {
+    setTimeout(() => {
+      res.redirect('/search');
+    }, 3000);
   });
   
+
+app.get('/search', (req, res) => {
+  const redirectURL = `http://localhost:3000/search`;
+  res.redirect(redirectURL); 
+});
+
+  
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });

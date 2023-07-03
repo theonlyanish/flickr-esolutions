@@ -18,13 +18,3 @@ document.getElementById('root')
 );
 
 reportWebVitals();
-
-// render(
-// <BrowserRouter>
-//     <Routes>
-//       <Route path="/" element={<App />} />
-//     </Routes>
-//   </BrowserRouter>,
-//   rootElement
-// );
-// reportWebVitals();
