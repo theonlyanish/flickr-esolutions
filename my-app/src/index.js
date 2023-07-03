@@ -1,83 +1,88 @@
-/*
 const express = require('express');
+const request = require('request');
 const session = require('express-session');
-const Flickr = require('flickr-sdk');
-
 const app = express();
-const port = 3000;
 
-// Set up session middleware
-app.use(
-  session({
-    secret: 'your_secret_key',
-    resave: false,  
-    saveUninitialized: true
-  })
-);
+// Session middleware
+app.use(session({
+  secret: 'your-secret-key',
+  resave: true,
+  saveUninitialized: true
+}));
 
-// Initialize Flickr API client
-const flickr = new Flickr({
-  apiKey: '74b7b5c466ae19657e02c498831ee397',
-  apiSecret: 'e7030b76b84780de'
+// API key refering to config.js
+const apiKey = apiKey;
+const apiSecret = apiSecret;
+const callbackURL = 'http://localhost:3000/callback';
+
+// Root URL
+app.get('/', (req, res) => {
+  res.send('Flickr Oauth Process');
 });
 
-// Redirect user to Flickr for authorization
-app.get('/auth/flickr', (req, res) => {
-  const oauth = flickr.OAuth.createPlugin(
-    'http://localhost:3000/auth/flickr/callback' // Callback URL
-  );
 
-  flickr.request().authenticate(oauth).then(url => {
-    res.redirect(url);
-  }).catch(err => {
-    console.error('Flickr authentication error:', err);
-    res.status(500).send('Flickr authentication error');
+app.get('/auth', (req, res) => {
+  // Generate the OAuth request token URL
+  const oauthRequestTokenURL = `https://www.flickr.com/services/oauth/request_token?oauth_callback=${callbackURL}`;
+  request.get({ url: oauthRequestTokenURL }, (error, response, body) => {
+    if (error) {
+      console.error('Error getting OAuth request token:', error);
+      res.status(500).send('Error getting OAuth request token');
+    } else {
+      const oauthToken = body.match(/oauth_token=([^&]+)/)[1];
+      const oauthTokenSecret = body.match(/oauth_token_secret=([^&]+)/)[1];
+
+      // Store the oauth stuff
+      req.session.oauthToken = oauthToken;
+      req.session.oauthTokenSecret = oauthTokenSecret;
+
+      res.redirect(`https://www.flickr.com/services/oauth/authorize?oauth_token=${oauthToken}`);
+    }
   });
 });
 
-// Handle the callback from Flickr
-app.get('/auth/flickr/callback', (req, res) => {
-  const oauth = flickr.OAuth.createPlugin(
-    'http://localhost:3000/auth/flickr/callback' // Callback URL
-  );
+// using ccallback to handle oauth
+app.get('/callback', (req, res) => {
+  const oauthToken = req.query.oauth_token;
+  const oauthVerifier = req.query.oauth_verifier;
+  const oauthTokenSecret = req.session.oauthTokenSecret;
 
-  flickr.request().authenticate(oauth, req.query).then(response => {
-    // Store the access token in the session or database
-    req.session.accessToken = response.body.oauth_token;
-    req.session.accessTokenSecret = response.body.oauth_token_secret;
+  const oauthAccessTokenURL = `https://www.flickr.com/services/oauth/access_token`;
 
-    res.send('Authentication successful! You can close this window.');
-  }).catch(err => {
-    console.error('Flickr authentication callback error:', err);
-    res.status(500).send('Flickr authentication callback error');
+  // Request token
+  request.post({
+    url: oauthAccessTokenURL,
+    oauth: {
+      consumer_key: apiKey,
+      consumer_secret: apiSecret,
+      token: oauthToken,
+      token_secret: oauthTokenSecret,
+      verifier: oauthVerifier
+    }
+  }, (error, response, body) => {
+    if (error) {
+      console.error('Error getting OAuth access token:', error);
+      res.status(500).send('Error getting OAuth access token');
+    } else {
+      const oauthAccessToken = body.match(/oauth_token=([^&]+)/)[1];
+      const oauthAccessTokenSecret = body.match(/oauth_token_secret=([^&]+)/)[1];
+
+    
+      req.session.oauthAccessToken = oauthAccessToken;
+      req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
+
+      // Route to react side now
+      res.send('OAuth process completed successfully!');
+    }
   });
 });
 
-// Example authenticated API route
-app.get('/api/photos', (req, res) => {
-  const oauth = flickr.OAuth.createPlugin(
-    'your_access_token', 
-    'your_access_token_secret' 
-  );
 
-  flickr.request()
-    .get('https://api.flickr.com/services/rest', {
-      oauth_consumer_key: 'your_api_key',
-      method: 'flickr.photos.search',
-      user_id: 'user_id_to_search',
-      format: 'json',
-      nojsoncallback: 1
-    })
-    .then(response => {
-      res.json(response.body);
-    })
-    .catch(err => {
-      console.error('Flickr API error:', err);
-      res.status(500).send('Flickr API error');
-    });
+app.listen(3000, () => {
+  console.log('Server started on http://localhost:3000');
 });
 
-*/
+/*
 
 
 import React from 'react';
@@ -94,3 +99,5 @@ root.render(
 );
 
 reportWebVitals();
+
+*/
