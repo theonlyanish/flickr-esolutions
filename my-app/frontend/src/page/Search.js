@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import './Search.css';
+import { Transform } from 'stream';
+import { alignProperty } from '@mui/material/styles/cssUtils';
 
 
 // function to set query and output using api key
@@ -12,13 +14,19 @@ const Search = ({ apiKey }) => {
   const [query, setQuery] = useState('');
   const [images, setImages] = useState([]);
 
-  // to search using button
+  //implementing pagination
+  const [currentPage, setCurrentPage] = useState(1);
+   // to search using button
   const [searchClicked, setSearchClicked] = useState(false);
 
+  const imagesPerPage = 30;
+
+
   //event to handle search
-  const handleSearch = (event) => {
+ const handleSearch = (event) => {
     event.preventDefault();
     setImages([]);
+    setCurrentPage(1);
     setSearchClicked(true);
     if (query) {
       setQuery(query.trim());
@@ -31,7 +39,7 @@ const Search = ({ apiKey }) => {
       const fetchImages = async () => {
         try {
           const response = await fetch(
-            `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&format=json&nojsoncallback=1&text=${query}&safe_search=1&per_page=30`
+            `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&format=json&nojsoncallback=1&text=${query}&safe_search=1&per_page=${imagesPerPage}&page=${currentPage}`
           );
           const data = await response.json();
           const fetchedImages = data.photos.photo.map((photo) => ({
@@ -39,7 +47,7 @@ const Search = ({ apiKey }) => {
             title: photo.title,
             url: `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
           }));
-          setImages(fetchedImages);
+          setImages((prevImages) => [...prevImages, ...fetchedImages]);
         } catch (error) {
           console.error('Error fetching images:', error);
         }
@@ -47,7 +55,14 @@ const Search = ({ apiKey }) => {
 
       fetchImages();
     }
-  }, [apiKey, query, searchClicked]);
+  }, [apiKey, query, searchClicked, currentPage]);
+
+
+  //handle pagination
+  const handleLoadMore = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
 
 
   //returning the images in a nice format
@@ -57,11 +72,19 @@ const Search = ({ apiKey }) => {
   return (
     <div>
       <div class="search" style={{ padding: '5%' }}>
-                <form onSubmit={handleSearch}>
-                    <input class="search-bar" type='text' value={query} onChange={(event) => setQuery(event.target.value)} placeholder='Search for images'/>        
-                    <button class="search-button" type='submit'> Search</button>
-                </form>
-        </div>
+        <form onSubmit={handleSearch}>
+          <input
+            class="search-bar"
+            type="text"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search for images"
+          />
+          <button class="search-button" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
       {searchClicked && (
         <div class="results" style={{ padding: '10%' }}>
           <ImageList variant="masonry" cols={3} gap={8}>
@@ -76,6 +99,11 @@ const Search = ({ apiKey }) => {
               </ImageListItem>
             ))}
           </ImageList>
+          {images.length % imagesPerPage === 0 && (
+            <div style={{ marginTop: '30px', textAlign: 'center', paddingTop: '10%', paddingRight: '25%' }}>
+              <button class="load-button" onClick={handleLoadMore}> Load More</button>
+            </div>
+          )}
         </div>
       )}
     </div>
