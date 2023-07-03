@@ -18,7 +18,7 @@ app.use(session({
   const callbackURL = 'http://localhost:3000/callback';
   
   // Root URL
-  app.get('/', (req, res) => {
+  app.get('/home', (req, res) => {
     res.send('Flickr Oauth Process');
   });
   
@@ -29,10 +29,11 @@ app.use(session({
     request.get({ url: oauthRequestTokenURL }, (error, response, body) => {
       if (error) {
         console.error('Error getting OAuth request token:', error);
-        res.status(500).send('Error getting OAuth request token');
+        res.status(500).json({ error: 'Error getting OAuth request token' });
       } else {
         const oauthTokenMatch = body.match(/oauth_token=([^&]+)/);
         const oauthTokenSecretMatch = body.match(/oauth_token_secret=([^&]+)/);
+  
   
         if (oauthTokenMatch && oauthTokenSecretMatch) {
           const oauthToken = oauthTokenMatch[1];
@@ -42,14 +43,14 @@ app.use(session({
           req.session.oauthToken = oauthToken;
           req.session.oauthTokenSecret = oauthTokenSecret;
   
-          res.redirect(`https://www.flickr.com/services/oauth/authorize?oauth_token=${oauthToken}`);
-        } else {
-          console.error('Error parsing OAuth request token:', body);
-          res.status(500).send('Error parsing OAuth request token');
-        }
+          res.json({ oauthToken });
+      } else {
+        console.error('Error parsing OAuth request token:', body);
+        res.status(500).json({ error: 'Error parsing OAuth request token' });
       }
-    });
+    }
   });
+});
   
   // using ccallback to handle oauth
   app.get('/callback', (req, res) => {

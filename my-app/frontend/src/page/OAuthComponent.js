@@ -19,7 +19,7 @@ const OAuthComponent = () => {
 <div class="container">
     <div class="box">
       <h3>OAuth - Authenticate through Flickr</h3>
-      <button class="oauth-button" onclick="initiateOAuth()">Initiate OAuth</button>
+      <button class="oauth-button"  onClick={initiateOAuth}>Initiate OAuth</button>
     </div>
   </div>
     );
