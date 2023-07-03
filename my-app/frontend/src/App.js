@@ -41,35 +41,30 @@ const App = () => {
 export default App;
 */
 
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import './App.css';
 import OAuthComponent from './page/OAuthComponent';
 import CallbackComponent from './page/CallbackComponent';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Search from './page/Search';
 import { apiKey } from './config/config';
-import './App.css';
 
 //Setting header for all
-class App extends React.Component {
-  render() {
+function App() {
   return (
-    <Router>
-      <div class="two minimal">
-    <h1>Flickr Image Search
-      <span>Search through Flickr</span>
-    </h1>
-{
-
-/* 
   
-    <Route path="/" element={<OAuthComponent />} />
-    <Route path="/callback" element={<CallbackComponent />} /> */}
-      
-        {/* <Search apiKey={apiKey} /> */}
-   
+  <div className="two minimal">
+  <h1>
+  Flickr Image Search
+  <span>Search through Flickr</span>
+  </h1>
+  <Routes>
+  <Route path="/" element={<OAuthComponent />} />
+  <Route path="/callback" element={<CallbackComponent />} />
+  </Routes>
+  <Search apiKey={apiKey} />
   </div>
-  </Router>
   );
-};
-}
-export default App;
+  }
+  
+  export default App;
