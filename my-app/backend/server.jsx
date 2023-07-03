@@ -4,7 +4,9 @@ const request = require('request');
 const session = require('express-session');
 const app = express();
 const port = 3000;
+const apiKey = '74b7b5c466ae19657e02c498831ee397';
 const apiKeyy = '74b7b5c466ae19657e02c498831ee397';
+const apiSecret = 'e7030b76b84780de';
 const apiSecrett = 'e7030b76b84780de';
 const crypto = require('crypto');
 const path = require('path');
@@ -12,36 +14,34 @@ const queryString = require('querystring');
 
 
 // Session middleware
-app.use(session({
+app.use(
+  session({
     secret: 'e7030b76b84780de',
     resave: true,
     saveUninitialized: true
-  }));
+  })
+);
   
   // API key refering to config.js
   
   const callbackURL = 'http://localhost:3000/callback';
-  
 
   app.get('/', (req, res) => {
     res.send('Welcome to the OAuth process');
   });
   
+  
 
   // auth signature function
 
-  function createOAuthSignature(method, url, params, secret) {
+  function createOAuthSignature(method, url, params, secret, tokenSecret) {
     const baseString = `${method}&${encodeURIComponent(url)}&${encodeURIComponent(formatParams(params))}`;
-    const signingKey = `${encodeURIComponent(secret)}&`;
+    const signingKey = `${encodeURIComponent(secret)}&${tokenSecret ? encodeURIComponent(tokenSecret) : ''}`;
   
-    return crypto
-      .createHmac('sha1', signingKey)
-      .update(baseString)
-      .digest('base64');
+    return crypto.createHmac('sha1', signingKey).update(baseString).digest('base64');
   }
 
   //format params
-
   function formatParams(params) {
     const sortedParams = {};
     Object.keys(params)
@@ -197,7 +197,7 @@ app.use(session({
       const oauthVerifyURL = 'https://www.flickr.com/services/rest';
       const oauthNonce = Math.floor(Math.random() * 1e9).toString();
       const oauthTimestamp = Math.floor(Date.now() / 1000).toString();
-      const oauthConsumerKey = '74b7b5c466ae19657e02c498831ee397';
+      const oauthConsumerKey = apiKey;
       const oauthSignatureMethod = 'HMAC-SHA1';
       const oauthVersion = '1.0';
   
@@ -217,7 +217,7 @@ app.use(session({
         'GET',
         oauthVerifyURL,
         oauthParams,
-        apiSecrett,
+        apiSecret,
         accessTokenSecret
       );
   
@@ -246,28 +246,24 @@ app.use(session({
       }
     });
   });
-
-
-
+  
   // Root URL
   app.get('/home', (req, res) => {
     setTimeout(() => {
       res.send('Flickr OAuth Process Complete');
     }, 3000);
   });
-
+  
   app.use((req, res, next) => {
     setTimeout(() => {
       res.redirect('/search');
     }, 3000);
   });
   
-
-app.get('/search', (req, res) => {
-  const redirectURL = `http://localhost:3000/search`;
-  res.redirect(redirectURL); 
-});
-
+  app.get('/search', (req, res) => {
+    const redirectURL = `http://localhost:3001/search`;
+    res.redirect(redirectURL);
+  });
   
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);

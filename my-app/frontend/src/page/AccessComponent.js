@@ -1,16 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const VerifyAccessToken = () => {
     const [verificationResult, setVerificationResult] = useState(null);
+    const navigate = useNavigate();
   
     useEffect(() => {
       // Call the server-side function to verify the access token
       fetch('/access-token')
-        .then(response => response.json())
-        .then(data => setVerificationResult(data))
-        .catch(error => console.error('Error verifying access token:', error));
-    }, []);
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Error verifying access token');
+        }
+      })
+      .then(data => {
+        setVerificationResult(data);
+        navigate('/search');
+      })
+      .catch(error => console.error('Error verifying access token:', error));
+  }, [navigate]);
   
     return (
       <div>

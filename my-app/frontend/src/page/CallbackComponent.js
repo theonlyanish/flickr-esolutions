@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { redirect } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const CallbackComponent = () => {
@@ -21,7 +20,7 @@ const CallbackComponent = () => {
       })
       .then(data => {
         console.log('OAuth process completed successfully:', data);
-        navigate('/search');
+        navigate('/access');
         
         
       })

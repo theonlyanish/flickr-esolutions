@@ -1,28 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './OAuthComponent.css';
 
 const OAuthComponent = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const initiateOAuth = () => {
-    fetch('http://localhost:3000/auth')
-      .then(response => response.json())
-      .then(data => {
-        navigate('/callback');
-      })
-      .catch(error => {
-        console.error('Error initiating OAuth:', error);
-      });
-  };
-    return (
-<div class="container">
-    <div class="box">
-      <h3>OAuth - Authenticate through Flickr</h3>
-      <button class="oauth-button"  onClick={initiateOAuth}>Initiate OAuth</button>
+  useEffect(() => {
+    window.location.href = '/auth';
+  }, []);
+
+
+
+  return (
+    <div className="container">
+      <div className="box">
+        <h3>OAuth - Authenticate through Flickr</h3>
+        <p>Initiating OAuth process...</p>
+      </div>
     </div>
-  </div>
-    );
-  }
+  );
+};
 
 export default OAuthComponent;

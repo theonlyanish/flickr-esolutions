@@ -17,7 +17,7 @@ function App() {
   <span>Search through Flickr</span>
   </h1>
   <Routes>
-        <Route path="/" element={<OAuthComponent />} />
+        <Route path="*" element={<OAuthComponent />} />
         <Route path="/callback" element={<CallbackComponent />} />
         <Route path="/access" element={<AccessComponent />} />
         <Route path="/search" element={<Search apiKey={apiKey} />} />
