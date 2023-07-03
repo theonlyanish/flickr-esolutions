@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+
+  }
+  
+  .box {
+    text-align: center;
+    border: 1px solid black;
+    padding: 20px;
+  }
+  
+  .oauth-button {
+    top: 50%;
+    left: 50%;
+    transform: translate(-110%,20%);
+    height: 55px;
+    text-align: center;
+  }
+  

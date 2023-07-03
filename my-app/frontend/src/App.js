@@ -58,11 +58,12 @@ function App() {
   Flickr Image Search
   <span>Search through Flickr</span>
   </h1>
-  {/* <Routes>
+  <Routes>
   <Route path="/" element={<OAuthComponent />} />
   <Route path="/callback" element={<CallbackComponent />} />
-  </Routes> */}
-  <Search apiKey={apiKey} />
+  <Route path="/search" element={<Search />} />
+  </Routes>
+  {/* <Search apiKey={apiKey} /> */}
   </div>
   );
   }

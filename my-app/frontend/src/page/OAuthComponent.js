@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './OAuthComponent.css';
 
 const OAuthComponent = () => {
     const navigate = useNavigate();
@@ -15,10 +16,12 @@ const OAuthComponent = () => {
       });
   };
     return (
-      <div>
-        <h2>OAuth Component</h2>
-        <button onClick={initiateOAuth}>Initiate OAuth</button>
-      </div>
+<div class="container">
+    <div class="box">
+      <h3>OAuth - Authenticate through Flickr</h3>
+      <button class="oauth-button" onclick="initiateOAuth()">Initiate OAuth</button>
+    </div>
+  </div>
     );
   }
 
