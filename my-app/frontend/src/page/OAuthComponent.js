@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './OAuthComponent.css';
 
 const OAuthComponent = () => {
-  const navigate = useNavigate();
 
   useEffect(() => {
     window.location.href = 'http://localhost:3000/auth';

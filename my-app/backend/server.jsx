@@ -1,13 +1,14 @@
+
 const { URLSearchParams } = require('url');
 const express = require('express');
 const request = require('request');
 const session = require('express-session');
 const app = express();
 const port = 3000;
+
+// cannot hide key or refer to file due to jsx requirements
 const apiKey = '74b7b5c466ae19657e02c498831ee397';
-const apiKeyy = '74b7b5c466ae19657e02c498831ee397';
 const apiSecret = 'e7030b76b84780de';
-const apiSecrett = 'e7030b76b84780de';
 const crypto = require('crypto');
 const path = require('path');
 const queryString = require('querystring');
@@ -60,14 +61,13 @@ app.use(
   
   // using flickr signature for logging in
   app.get('/auth', (req, res) => {
-    const requestToken = generateRequestToken(); 
-    
+
     const oauthNonce = Math.floor(Math.random() * 1e9).toString();
     const oauthTimestamp = Math.floor(Date.now() / 1000).toString();
 
     const oauthRequestTokenURL = `https://www.flickr.com/services/oauth/request_token`;
     const oauthCallback = encodeURIComponent(callbackURL);
-    const oauthConsumerKey = apiKeyy;
+    const oauthConsumerKey = apiKey;
     const oauthSignatureMethod = 'HMAC-SHA1';
     const oauthVersion = '1.0';
   
@@ -82,7 +82,7 @@ app.use(
         oauth_version: oauthVersion,
         oauth_callback: oauthCallback
       },
-      apiSecrett
+      apiSecret
     );
   
     const oauthRequestTokenParams = new URLSearchParams();
@@ -110,7 +110,6 @@ app.use(
           req.session.oauthTokenSecret = oauthTokenSecret;
 
           const redirectURL = `https://www.flickr.com/services/oauth/authorize?oauth_token=${oauthToken}`;
-          res.json({ requestToken });
           res.redirect(redirectURL);
         } else {
           console.error('Error parsing OAuth request token:', body);
@@ -127,14 +126,14 @@ app.use(
     const oauthToken = req.query.oauth_token;
     const oauthVerifier = req.query.oauth_verifier;
     const oauthTokenSecret = req.session.oauthTokenSecret;
-    const requestToken = generateRequestToken();
+
   
     const oauthAccessTokenURL = `https://www.flickr.com/services/oauth/access_token`;
   
 
     const oauthNonce = Math.floor(Math.random() * 1e9).toString();
     const oauthTimestamp = Math.floor(Date.now() / 1000).toString();
-    const oauthConsumerKey = '74b7b5c466ae19657e02c498831ee397';
+    const oauthConsumerKey = apiKey;
     const oauthSignatureMethod = 'HMAC-SHA1';
     const oauthVersion = '1.0';
 
@@ -150,7 +149,7 @@ app.use(
         oauth_token: oauthToken,
         oauth_verifier: oauthVerifier
       },
-      apiSecrett,
+      apiSecret,
       oauthTokenSecret
     );
   
@@ -175,7 +174,6 @@ app.use(
           console.error('Error getting OAuth access token:', error);
           res.status(500).send('Error getting OAuth access token');
         } else {
-          res.json({ requestToken });
           const queryParams = new URLSearchParams(body);
           const oauthAccessToken = queryParams.get('oauth_token');
           const oauthAccessTokenSecret = queryParams.get('oauth_token_secret');
@@ -197,8 +195,7 @@ app.use(
   app.get('/access-token', (req, res) => {
     const oauthAccessToken = req.session.oauthAccessToken;
     const oauthAccessTokenSecret = req.session.oauthAccessTokenSecret;
-    const hasAccessToken = Boolean(oauthAccessToken);
-  
+    
     const verifyAccessToken = (accessToken, accessTokenSecret, callback) => {
       const oauthVerifyURL = 'https://www.flickr.com/services/rest';
       const oauthNonce = Math.floor(Math.random() * 1e9).toString();
@@ -237,7 +234,6 @@ app.use(
           console.error('Error verifying access token:', error);
           callback(error);
         } else {
-          res.json({ hasAccessToken });
           const redirectURL = `http://localhost:3000/home`;
           res.redirect(redirectURL);
         }
