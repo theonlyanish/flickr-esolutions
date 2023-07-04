@@ -6,18 +6,16 @@ import CallbackComponent from './page/CallbackComponent';
 import AccessComponent from './page/AccessComponent';
 import Search from './page/Search';
 import { apiKey } from './config/config';
-import { BrowserRouter } from 'react-router-dom';
 
-//Setting header for all
 function App() {
   return (
   
+    //Setting header for all
   <div className="two minimal">
   <h1>
   Flickr Image Search
   <span>Search through Flickr</span>
   </h1>
-
   <Routes>
         <Route path="/" element={<OAuthComponent />} />
         <Route path="/search" element={<Search apiKey={apiKey} />} />

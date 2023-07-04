@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// using browser router in app.js only
 ReactDOM.render(
     <BrowserRouter>
       <App />

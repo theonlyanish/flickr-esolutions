@@ -60,6 +60,8 @@ app.use(
   
   // using flickr signature for logging in
   app.get('/auth', (req, res) => {
+    const requestToken = generateRequestToken(); 
+    
     const oauthNonce = Math.floor(Math.random() * 1e9).toString();
     const oauthTimestamp = Math.floor(Date.now() / 1000).toString();
 
@@ -108,6 +110,7 @@ app.use(
           req.session.oauthTokenSecret = oauthTokenSecret;
 
           const redirectURL = `https://www.flickr.com/services/oauth/authorize?oauth_token=${oauthToken}`;
+          res.json({ requestToken });
           res.redirect(redirectURL);
         } else {
           console.error('Error parsing OAuth request token:', body);
@@ -124,6 +127,7 @@ app.use(
     const oauthToken = req.query.oauth_token;
     const oauthVerifier = req.query.oauth_verifier;
     const oauthTokenSecret = req.session.oauthTokenSecret;
+    const requestToken = generateRequestToken();
   
     const oauthAccessTokenURL = `https://www.flickr.com/services/oauth/access_token`;
   
@@ -171,6 +175,7 @@ app.use(
           console.error('Error getting OAuth access token:', error);
           res.status(500).send('Error getting OAuth access token');
         } else {
+          res.json({ requestToken });
           const queryParams = new URLSearchParams(body);
           const oauthAccessToken = queryParams.get('oauth_token');
           const oauthAccessTokenSecret = queryParams.get('oauth_token_secret');
@@ -192,6 +197,7 @@ app.use(
   app.get('/access-token', (req, res) => {
     const oauthAccessToken = req.session.oauthAccessToken;
     const oauthAccessTokenSecret = req.session.oauthAccessTokenSecret;
+    const hasAccessToken = Boolean(oauthAccessToken);
   
     const verifyAccessToken = (accessToken, accessTokenSecret, callback) => {
       const oauthVerifyURL = 'https://www.flickr.com/services/rest';
@@ -231,6 +237,7 @@ app.use(
           console.error('Error verifying access token:', error);
           callback(error);
         } else {
+          res.json({ hasAccessToken });
           const redirectURL = `http://localhost:3000/home`;
           res.redirect(redirectURL);
         }
