@@ -21,13 +21,14 @@ Run instructions -
 Note - The backend must run on port 3000 and the frontend must run on port 3001 only.
 
 Using the application
-1. The application will initiate authentication via Oauth which will redirect to Flickr
-2. Flickr will ask for login or registration details followed by authorization
-3. Once user authorization is granted, the application will then perform other authentication flow steps, i.e - request token, access token and verifying access-token
-4. Once the authorization is completed in the backend, it will automatically redirect to search
-5. On the search page, tags are considered for user input and so all queries should be spaced in order to be considered as separate tags
-6. Here, live search can be used or the search button next to the search bar
-7. The application will fetch 30 images and if more results are required, the user can click on 'load more' at the end of the results in order to generate 30 more
-8. Error handling - If invalid words or empty search queries are sent, it will return a message on the page stating it
+1. The last step of the installation will open the link 'http://localhost:3001/' from where the user must proceed
+2. The application will initiate authentication via Oauth which will redirect to Flickr
+3. Flickr will ask for login or registration details followed by authorization
+4. Once user authorization is granted, the application will then perform other authentication flow steps, i.e - request token, access token, and verifying access-token
+5. Once the authorization is completed in the backend, it will automatically redirect to search
+6. On the search page, tags are considered for user input and so all queries should be spaced in order to be considered as separate tags
+7. Here, live search can be used, or the search button next to the search bar
+8. The application will fetch 30 images and if more results are required, the user can click on 'load more' at the end of the results in order to generate 30 more
+9. Error handling - If invalid words or empty search queries are sent, it will return a message on the page stating it
 
 ![image](https://github.com/theonlyanish/flickr-esolutions/assets/28725271/a7774ddc-a60e-43a9-95f2-0fbf098c8f0e)
