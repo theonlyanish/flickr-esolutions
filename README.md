@@ -1,23 +1,24 @@
 Esolutions Flickr Client
-- A Flickr Search application with authentication to search through the flickr library via tags
+- A Flickr Search application with authentication to search through the Flickr library via tags
 
-Technologies used - React, Node.js, Express, CSS, HTML
+Technologies used - React, Node.js, Express, CSS, HTML.    
 Libraries used - MaterialUI, ReactDOM, react-router-dom, crypto, querystring
 
 Run instructions - 
-1. Insert API key and secret in relevant variables in file '/src/config/config.js'
-2. 'cd my-app' to enter project directory
+1. Insert API key and secret in relevant variables in file 'frontend/src/config/config.js' and in file 'backend/server.jsx'
+2. 'cd my-app' to enter the project directory
 3. 'cd backend' to enter the backend folder
 4. 'npm install' to install all dependencies
 5. 'node server.jsx' in order to run the application on port 3000
 6. Open a separate terminal in order to run the frontend side
-7. 'cd my-app' to enter project directory
+7. 'cd my-app' to enter the project directory
 8. 'cd frontend' to enter the frontend folder
 9. 'npm install' to install all dependencies
 10. 'npm build' to build the react application
-12. 'npm start' in order to run the application on port 3001
+12. 'npm start' in order to run the application
+13. This step will ask to run the application on a separate port for which 'Y' must be entered in order to the application on port 3001
 
-Note - The backend must run on port 3000 and the frontend must run on port 3001
+Note - The backend must run on port 3000 and the frontend must run on port 3001 only.
 
 Using the application
 1. The application will initiate authentication via Oauth which will redirect to Flickr
