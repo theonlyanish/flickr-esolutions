@@ -249,20 +249,13 @@ app.use(
   
   // Root URL
   app.get('/home', (req, res) => {
-    setTimeout(() => {
-      res.send('Flickr OAuth Process Complete');
-    }, 3000);
-  });
-  
-  app.use((req, res, next) => {
-    setTimeout(() => {
-      res.redirect('/search');
-    }, 3000);
-  });
-  
-  app.get('/search', (req, res) => {
     const redirectURL = `http://localhost:3001/search`;
     res.redirect(redirectURL);
+  });
+
+  
+  app.get('/search', (req, res) => {
+    res.send('Redirecting to search...');
   });
   
   app.listen(port, () => {

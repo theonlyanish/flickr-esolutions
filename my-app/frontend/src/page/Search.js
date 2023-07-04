@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import './Search.css';
-import { Transform } from 'stream';
-import { alignProperty } from '@mui/material/styles/cssUtils';
-import { colors } from '@mui/material';
 
 
 // function to set query and output using api key

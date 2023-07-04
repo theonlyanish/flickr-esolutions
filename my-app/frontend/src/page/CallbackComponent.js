@@ -20,15 +20,15 @@ const CallbackComponent = () => {
       })
       .then(data => {
         console.log('OAuth process completed successfully:', data);
-        navigate('/access');
         
-        
+        setTimeout(() => {
+          navigate('/home');
+        }, 3000);
       })
       .catch(error => {
         console.error('Error completing OAuth:', error);
-        
       });
-  }, []);
+  }, [navigate]);
 
   return <div>Completing OAuth process...</div>;
 };

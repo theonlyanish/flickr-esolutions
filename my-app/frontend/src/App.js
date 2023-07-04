@@ -6,6 +6,7 @@ import CallbackComponent from './page/CallbackComponent';
 import AccessComponent from './page/AccessComponent';
 import Search from './page/Search';
 import { apiKey } from './config/config';
+import { BrowserRouter } from 'react-router-dom';
 
 //Setting header for all
 function App() {
@@ -16,14 +17,13 @@ function App() {
   Flickr Image Search
   <span>Search through Flickr</span>
   </h1>
+
   <Routes>
-        <Route path="*" element={<OAuthComponent />} />
+        <Route path="/" element={<OAuthComponent />} />
+        <Route path="/search" element={<Search apiKey={apiKey} />} />
         <Route path="/callback" element={<CallbackComponent />} />
         <Route path="/access" element={<AccessComponent />} />
-        <Route path="/search" element={<Search apiKey={apiKey} />} />
       </Routes>
-
-  {/* <Search  /> */}
   </div>
   );
   }

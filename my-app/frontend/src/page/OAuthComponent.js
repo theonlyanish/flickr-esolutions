@@ -6,7 +6,7 @@ const OAuthComponent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.location.href = '/auth';
+    window.location.href = 'http://localhost:3000/auth';
   }, []);
 
 
