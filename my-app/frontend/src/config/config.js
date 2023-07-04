@@ -1,4 +1,6 @@
 /// API key and secret
-export const apiKey = '74b7b5c466ae19657e02c498831ee397';
-export const apiSecret = 'e7030b76b84780de'
+
+// insert api key and secret in relevant variables inside '' marks
+export const apiKey = '';
+export const apiSecret = '';
 // request revoke via email upon review completion

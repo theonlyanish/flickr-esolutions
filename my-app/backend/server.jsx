@@ -7,8 +7,10 @@ const app = express();
 const port = 3000;
 
 // cannot hide key or refer to file due to jsx requirements
-const apiKey = '74b7b5c466ae19657e02c498831ee397';
-const apiSecret = 'e7030b76b84780de';
+
+// insert apikey and secret from email inside variables inside '' marks
+const apiKey = '';
+const apiSecret = '';
 const crypto = require('crypto');
 const path = require('path');
 const queryString = require('querystring');
@@ -17,7 +19,7 @@ const queryString = require('querystring');
 // Session middleware
 app.use(
   session({
-    secret: 'e7030b76b84780de',
+    secret: apiSecret,
     resave: true,
     saveUninitialized: true
   })
