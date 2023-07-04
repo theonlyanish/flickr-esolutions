@@ -4,7 +4,7 @@ Esolutions Flickr Client
 Technologies used - React, Node.js, Express, CSS, HTML.    
 Libraries used - MaterialUI, ReactDOM, react-router-dom, crypto, querystring
 
-Run instructions - 
+Run instructions post cloning and extraction - 
 1. Insert API key and secret in relevant variables in file 'frontend/src/config/config.js' and in file 'backend/server.jsx'
 2. 'cd my-app' to enter the project directory
 3. 'cd backend' to enter the backend folder
