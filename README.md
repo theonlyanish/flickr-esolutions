@@ -28,3 +28,4 @@ Using the application
 6. Here, live search can be used or the search button next to the search bar
 7. The application will fetch 30 images and if more results are required, the user can click on 'load more' at the end of the results in order to generate 30 more
 8. Error handling - If invalid words or empty search queries are sent, it will return a message on the page stating it
+
