@@ -1,4 +1,4 @@
-Esolutions Flickr Client
+Esolutions Flickr Client with authentication
 - A Flickr Search application with authentication to search through the Flickr library via tags
 
 Technologies used - React, Node.js, Express, CSS, HTML.    
